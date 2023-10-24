@@ -11,16 +11,22 @@ const userChoiceDiv=document.createElement('div');
 const botChoiceDiv=document.createElement('div');
 const divRoundResult = document.createElement('div');
 const resultsDiv = document.createElement('div');
+const userRoundTracker = document.createElement('div');
+const botRoundTracker = document.createElement('div');
 
 roundTrackerMainDiv.appendChild(resultsDiv); // round tracker
 userChoiceMainDiv.appendChild(userChoiceDiv);
 botChoiceMainDiv.appendChild(botChoiceDiv);
 resultsMainDiv.appendChild(divRoundResult);
+roundTrackerMainDiv.appendChild(userRoundTracker);
+roundTrackerMainDiv.appendChild(botRoundTracker);
 var userInput;
 var rounds =0;
 var userNum=0;
 var botNum=0;
 var messageDisplay="";
+
+
 function setScissors()
 {
     userInput="scissors";
@@ -46,24 +52,29 @@ function resetBoard()
 function roundSetter(winner)
 {
     rounds++;
-    if(winner="user")
+    if(winner=="user")
     {
         userNum++;
-    } else{
+    } else if(winner=="bot"){
         botNum++;
     }
-    if(rounds>4)
+    userRoundTracker.textContent=("User Score: " + userNum);
+    botRoundTracker.textContent=("Bot Score: " +botNum);
+    resultsDiv.textContent=("Current Round: "+rounds);
+    if(rounds>5)
     {
         if(userNum==5)
         {
             messageDisplay="You have won the 5 rounds! I lost miserably... Congratulations :)";
             resultsDiv.textContent=(messageDisplay);
+            resetBoard();
             return true;
         }
         if(botNum==5)
         {
-            messageDisplay="I have won the 5 rounds! Better luck next time buddy! :)";
+            messageDisplay="I have won the 5 rounds! Better luck next time ! :)";
             resultsDiv.textContent=(messageDisplay);
+            resetBoard();
             return true;
         }
     }
@@ -83,23 +94,26 @@ function playRound()
         {
             divRoundResult.textContent=("Draw! Let's go again!");
             draw=true;
+            gameEnded = roundSetter("");
             break;
         }
         if(botChoice=="paper"&&userInput=="paper")
         {
             divRoundResult.textContent=("Draw! Let's go again!");
             draw=true;
+            gameEnded = roundSetter("");
             break;
         }
         if(botChoice=="scissors"&&userInput=="scissors")
         {
             divRoundResult.textContent=("Draw! Let's go again!");
             draw=true;
+            gameEnded = roundSetter("");
             break; 
         }
         if(botChoice=="paper"&&userInput!="scissors"&&draw==false)
         {
-            divRoundResult.textContent=("I win! Better luck next time!");
+            divRoundResult.textContent=("I win! :D");
             gameEnded = roundSetter("bot");
             break; 
         } else if(botChoice=="paper"){
@@ -109,7 +123,7 @@ function playRound()
         }
         if(botChoice=="rock"&&userInput!=="paper"&&draw==false)
         {
-            divRoundResult.textContent=("I win! Better luck next time!");
+            divRoundResult.textContent=("I win! :D");
             gameEnded = roundSetter("bot");
             break; 
         } else if(botChoice=="rock"){
@@ -119,7 +133,7 @@ function playRound()
         }
         if(botChoice=="scissors"&&userInput!="rock"&&draw==false)
         {
-            divRoundResult.textContent=("I win! Better luck next time!");
+            divRoundResult.textContent=("I win! :D");
             gameEnded = roundSetter("bot");
             break; 
         } else{
