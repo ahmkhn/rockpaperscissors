@@ -3,75 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js" defer></script>
     <title>Rock Paper Scissors</title>
 </head>
 <body>
-    <script>
-        function getRndInteger(min, max) {
-            return Math.floor(Math.random() * (max - min) ) + min;
-        }
-        let botOption = ["rock","paper","scissors"];
-        let botChoice = botOption[getRndInteger(0,2)];
-        let userInput = prompt("Please enter: rock, paper or scissors.");
-        
-        console.log("Your Choice: ",userInput);
-        console.log("My Choice: ",botChoice);
-        var draw=false;
-        while(true)
-        {
-                if(botChoice=="rock" && userInput=="rock")
-            {
-                console.log("Draw!");
-                draw=true;
-                break;
-            }
-            if(botChoice=="paper"&&userInput=="paper")
-            {
-                console.log("Draw!");
-                draw=true;
-                break;
-            }
-            if(botChoice=="scissors"&&userInput=="scissors")
-            {
-                console.log("Draw!");
-                draw=true;
-                decision=true;
-                break; 
-            }
-            if(botChoice=="paper"&&userInput!="scissors"&&draw==false)
-            {
-                console.log("I win");
-                decision=true;
-                break; 
-            } else{
-                console.log("I lose...");
-                decision=true;
-                break; 
-            }
-            if(botChoice=="rock"&&userInput!="paper"&&draw==false)
-            {
-                console.log("I win!");
-                decision=true;
-                break; 
-            } else{
-                console.log("I lose...");
-                decision=true;
-                break; 
-            }
-            if(botChoice=="scissors"&&userInput!="rock"&&draw==false)
-            {
-                console.log("I win!");
-                decision=true;
-                break; 
-            } else{
-                console.log("I lose...");
-                decision=true;
-                break; 
-            }
-        }
-        
-        
-        
-    </script>
+    <div class="buttons">
+        <button class="rock-button b1" onClick="setRock(); playRound();">Rock</button>
+        <button class="paper-button b1" onClick="setPaper(); playRound();">Paper</button>
+        <button class="scissors-button b1" onClick="setScissors(); playRound();">Scissors</button>
+    </div>
+    <div class="results-div"> <!-- add DOM?-->
+        <div class="user-choice"></div>
+        <div class="bot-choice"></div>
+        <div class="result"></div>
+        <div class="round-tracker"></div>
+    </div>
 </body>
 </html>

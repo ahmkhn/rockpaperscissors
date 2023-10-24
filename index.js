@@ -1,14 +1,26 @@
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min) ) + min;
 }
-const body = document.body;
+const userChoiceMainDiv = document.querySelector(".user-choice")
+const botChoiceMainDiv=document.querySelector(".bot-choice");
+const resultsMainDiv=document.querySelector(".result");
+const roundTrackerMainDiv=document.querySelector(".round-tracker");
+
+
 const userChoiceDiv=document.createElement('div');
 const botChoiceDiv=document.createElement('div');
-const div = document.createElement('div');
-body.appendChild(userChoiceDiv);
-body.appendChild(botChoiceDiv);
-body.appendChild(div);
+const divRoundResult = document.createElement('div');
+const resultsDiv = document.createElement('div');
+
+roundTrackerMainDiv.appendChild(resultsDiv); // round tracker
+userChoiceMainDiv.appendChild(userChoiceDiv);
+botChoiceMainDiv.appendChild(botChoiceDiv);
+resultsMainDiv.appendChild(divRoundResult);
 var userInput;
+var rounds =0;
+var userNum=0;
+var botNum=0;
+var messageDisplay="";
 function setScissors()
 {
     userInput="scissors";
@@ -24,59 +36,95 @@ function setPaper()
     userInput="paper";
     return userInput;
 }
+function resetBoard()
+{
+    rounds=0;
+    userNum=0;
+    botNum=0;
+    messageDisplay="";
+}
+function roundSetter(winner)
+{
+    rounds++;
+    if(winner="user")
+    {
+        userNum++;
+    } else{
+        botNum++;
+    }
+    if(rounds>4)
+    {
+        if(userNum==5)
+        {
+            messageDisplay="You have won the 5 rounds! I lost miserably... Congratulations :)";
+            resultsDiv.textContent=(messageDisplay);
+            return true;
+        }
+        if(botNum==5)
+        {
+            messageDisplay="I have won the 5 rounds! Better luck next time buddy! :)";
+            resultsDiv.textContent=(messageDisplay);
+            return true;
+        }
+    }
+}
 function playRound()
 {
     let botOption = ["rock","paper","scissors"];
     let botChoice = botOption[getRndInteger(0,3)];
     userChoiceDiv.textContent=("User choice: " + userInput);
     botChoiceDiv.textContent=("Bot choice: "+ botChoice);
-    botChoiceDiv.setAttribute('class','bot-choice');
-    userChoiceDiv.setAttribute('class','user-choice');
-    div.setAttribute('class','win-loss');
     var draw=false;
+    var gameEnded=false;
 
-    while(true)
+    while(gameEnded==false)
     {
             if(botChoice=="rock" && userInput=="rock")
         {
-            div.textContent=("Draw!");
+            divRoundResult.textContent=("Draw! Let's go again!");
             draw=true;
             break;
         }
         if(botChoice=="paper"&&userInput=="paper")
         {
-            div.textContent=("Draw!");
+            divRoundResult.textContent=("Draw! Let's go again!");
             draw=true;
             break;
         }
         if(botChoice=="scissors"&&userInput=="scissors")
         {
-            div.textContent=("Draw!");
+            divRoundResult.textContent=("Draw! Let's go again!");
             draw=true;
             break; 
         }
         if(botChoice=="paper"&&userInput!="scissors"&&draw==false)
         {
-            div.textContent=("I win");
+            divRoundResult.textContent=("I win! Better luck next time!");
+            gameEnded = roundSetter("bot");
             break; 
         } else if(botChoice=="paper"){
-            div.textContent=("I lose...");
+            divRoundResult.textContent=("I lost... you won.");
+            gameEnded = roundSetter("user");
             break; 
         }
         if(botChoice=="rock"&&userInput!=="paper"&&draw==false)
         {
-            div.textContent=("I win");
+            divRoundResult.textContent=("I win! Better luck next time!");
+            gameEnded = roundSetter("bot");
             break; 
         } else if(botChoice=="rock"){
-            div.textContent=("I lose...");
+            divRoundResult.textContent=("I lost... you won.");
+            gameEnded = roundSetter("user");
             break; 
         }
         if(botChoice=="scissors"&&userInput!="rock"&&draw==false)
         {
-            div.textContent=("I win");
+            divRoundResult.textContent=("I win! Better luck next time!");
+            gameEnded = roundSetter("bot");
             break; 
         } else{
-            div.textContent=("I lose...");
+            divRoundResult.textContent=("I lost... you won.");
+            gameEnded = roundSetter("user");
             break; 
         }
     }
